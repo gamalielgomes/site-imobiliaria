@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Painel | Nome da sua empresa</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/supabase.js" defer></script>
+    <script src="js/site.js" defer></script>
+    <script src="js/admin.js" defer></script>
+  </head>
+  <body data-page="admin" class="admin-page">
+    <header class="admin-header"><div class="container admin-header-content"><a class="brand" href="index.html"><img class="brand-logo brand-logo-placeholder" width="238" height="56" alt="Sua logo aqui" /></a><div class="admin-actions"><a class="button button-outline button-small" href="index.html" target="_blank" rel="noopener">Ver site</a><button class="button button-dark button-small" id="logout-button" type="button">Sair</button></div></div></header>
+    <main class="admin-main"><div class="container">
+      <div class="admin-intro"><div><p class="eyebrow">Painel administrativo</p><h1>Gerencie os imóveis.</h1><p id="admin-user" class="muted-text"></p></div><button class="button button-primary" id="new-property-button" type="button">+ Novo imóvel</button></div>
+      <p id="admin-status" class="form-message" aria-live="polite"></p>
+      <section class="admin-content" id="admin-content" hidden>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Imóvel</th><th>Finalidade</th><th>Localização</th><th>Preço</th><th>Status</th><th><span class="visually-hidden">Ações</span></th></tr></thead><tbody id="admin-property-list"></tbody></table></div>
+      </section>
+      <section class="admin-empty" id="admin-empty" hidden><h2>Você ainda não tem imóveis cadastrados.</h2><p>Use o botão acima para publicar a primeira oportunidade.</p></section>
+      <section class="property-form-panel" id="property-form-panel" hidden aria-labelledby="property-form-title">
+        <div class="panel-heading"><div><p class="eyebrow">Cadastro</p><h2 id="property-form-title">Novo imóvel</h2></div><button class="icon-button" id="close-property-form" type="button" aria-label="Fechar formulário">×</button></div>
+        <form id="property-form" class="property-form">
+          <input type="hidden" name="id" />
+          <label><span>Código</span><input name="codigo" required placeholder="Ex.: ID-004" /></label>
+          <label class="form-span-2"><span>Título</span><input name="titulo" required placeholder="Ex.: Apartamento amplo na Aldeota" /></label>
+          <label><span>Finalidade</span><select name="finalidade" required><option value="Venda">Venda</option><option value="Aluguel">Aluguel</option></select></label>
+          <label><span>Tipo</span><select name="tipo" required><option value="Casa">Casa</option><option value="Apartamento">Apartamento</option><option value="Terreno">Terreno</option><option value="Comercial">Comercial</option></select></label>
+          <label><span>Cidade</span><input name="cidade" required value="Belo Jardim" /></label>
+          <label><span>Bairro</span><input name="bairro" /></label>
+          <label><span>Preço (R$)</span><input name="preco" type="number" min="0" step="0.01" required /></label>
+          <label><span>Área (m²)</span><input name="area_m2" type="number" min="0" step="0.01" required /></label>
+          <label><span>Quartos</span><input name="quartos" type="number" min="0" step="1" value="0" required /></label>
+          <label><span>Banheiros</span><input name="banheiros" type="number" min="0" step="1" value="0" required /></label>
+          <label><span>Vagas de garagem</span><input name="vagas" type="number" min="0" step="1" value="0" required /></label>
+          <label class="form-span-2"><span>Foto principal</span><input name="foto_principal" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="image-upload-hint" /><small class="form-hint">Selecione um arquivo JPG, PNG ou WEBP de até 5 MB.</small></label>
+          <label class="form-span-2"><span>Fotos adicionais</span><input name="fotos_adicionais" type="file" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="image-upload-hint" /><small class="form-hint">Opcional. Você pode selecionar várias fotos de uma vez.</small></label>
+          <p class="form-hint form-span-2" id="image-upload-hint" aria-live="polite">As imagens são enviadas para o Storage da imobiliária ao salvar o imóvel.</p>
+          <label class="form-span-2"><span>Descrição</span><textarea name="descricao" rows="5" placeholder="Descreva os diferenciais do imóvel."></textarea></label>
+          <label class="check-label"><input name="destaque" type="checkbox" /><span>Exibir em destaque na página inicial</span></label>
+          <label class="check-label"><input name="disponivel" type="checkbox" checked /><span>Imóvel disponível para consulta</span></label>
+          <div class="form-actions form-span-2"><button class="button button-ghost" id="cancel-property-form" type="button">Cancelar</button><button class="button button-primary" type="submit">Salvar imóvel</button></div>
+        </form>
+      </section>
+    </div></main>
+  </body>
+</html>
