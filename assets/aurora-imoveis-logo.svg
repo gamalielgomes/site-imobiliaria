@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 84" role="img" aria-labelledby="title">
+  <title id="title">Aurora Imóveis</title>
+  <rect x="4" y="8" width="68" height="68" rx="21" fill="#0b5cab"/>
+  <path d="M18 49 38 27l20 22h-7v12H25V49h-7Z" fill="#fff"/>
+  <path d="M31 61V47h14v14" fill="#cfe8ff"/>
+  <circle cx="56" cy="25" r="7" fill="#8fc5f5"/>
+  <text x="88" y="39" fill="#102a43" font-family="Arial, sans-serif" font-size="29" font-weight="700" letter-spacing=".5">AURORA</text>
+  <text x="90" y="61" fill="#0b5cab" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="4.2">IMÓVEIS</text>
+</svg>
