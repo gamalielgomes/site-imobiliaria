@@ -124,6 +124,9 @@
   document.querySelectorAll("[data-address]").forEach((element) => {
     element.textContent = config.address;
   });
+  document.querySelectorAll("[data-creci]").forEach((element) => {
+    element.textContent = config.creci;
+  });
 
   const toggle = document.querySelector("[data-nav-toggle]");
   const navigation = document.querySelector("[data-nav]");
@@ -137,6 +140,16 @@
     link.addEventListener("click", () => {
       navigation?.classList.remove("is-open");
       toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  document.querySelectorAll("[data-carousel-control]").forEach((control) => {
+    control.addEventListener("click", () => {
+      const carousel = document.querySelector(control.dataset.carouselTarget);
+      if (!carousel) return;
+      const direction = control.dataset.carouselControl === "previous" ? -1 : 1;
+      const amount = Math.max(carousel.clientWidth * 0.82, 300);
+      carousel.scrollBy({ left: amount * direction, behavior: "smooth" });
     });
   });
 })();

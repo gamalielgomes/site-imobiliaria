@@ -5,7 +5,8 @@
  */
 window.APP_CONFIG = Object.freeze({
   business: {
-    name: "Nome da sua empresa",
+    name: "Aurora Imóveis",
+    creci: "CRECI-PE 00000-J",
     phoneDisplay: "(85) 99999-0000",
     phoneDigits: "5585999990000",
     email: "contato@exemplo.com",

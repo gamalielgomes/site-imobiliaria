@@ -7,7 +7,7 @@
     renderError?.(container, "A conexão com o catálogo não está disponível no momento.");
   };
 
-  const queryProperties = async (filters = {}, featuredOnly = false) => {
+  const queryProperties = async (filters = {}, featuredOnly = false, maximum = 0) => {
     if (!client) throw new Error("Cliente Supabase indisponível.");
 
     let query = client
@@ -17,11 +17,12 @@
       .order("destaque", { ascending: false })
       .order("created_at", { ascending: false });
 
-    if (featuredOnly) query = query.eq("destaque", true).limit(3);
+    if (featuredOnly) query = query.eq("destaque", true);
     if (filters.finalidade) query = query.eq("finalidade", filters.finalidade);
     if (filters.tipo) query = query.eq("tipo", filters.tipo);
     if (filters.cidade) query = query.eq("cidade", filters.cidade);
     if (filters.bairro) query = query.eq("bairro", filters.bairro);
+    if (maximum) query = query.limit(maximum);
 
     const { data, error } = await query;
     if (error) throw error;
@@ -76,7 +77,7 @@
     if (!client) return showConfigurationError(container);
 
     try {
-      const properties = await queryProperties({}, true);
+      const properties = await queryProperties({}, true, 3);
       container.innerHTML = properties.length
         ? properties.map(propertyCard).join("")
         : '<div class="empty-state"><h3>Novas oportunidades em breve.</h3><p>Fale com nossa equipe e conte o que você procura.</p></div>';
@@ -86,6 +87,38 @@
       renderError(container, "Tente atualizar a página em alguns instantes.");
     }
   };
+
+  const loadHomeCollection = async ({ containerSelector, filters, emptyTitle, emptyMessage }) => {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    if (!client) return showConfigurationError(container);
+
+    try {
+      const properties = await queryProperties(filters, false, 3);
+      container.innerHTML = properties.length
+        ? properties.map(propertyCard).join("")
+        : `<div class="empty-state"><h3>${emptyTitle}</h3><p>${emptyMessage}</p><a class="button button-outline" href="imoveis.html">Ver todos os imóveis</a></div>`;
+      revealElements?.(container);
+    } catch (error) {
+      console.error(error);
+      renderError(container, "Tente atualizar a página em alguns instantes.");
+    }
+  };
+
+  const loadHomeCollections = () => Promise.all([
+    loadHomeCollection({
+      containerSelector: "#homes-for-sale",
+      filters: { finalidade: "Venda", tipo: "Casa" },
+      emptyTitle: "Casas à venda em breve.",
+      emptyMessage: "Nossa equipe pode ajudar você a encontrar a casa ideal para comprar.",
+    }),
+    loadHomeCollection({
+      containerSelector: "#homes-for-rent",
+      filters: { finalidade: "Aluguel", tipo: "Casa" },
+      emptyTitle: "Casas para aluguel em breve.",
+      emptyMessage: "Fale com a nossa equipe e conte como deve ser o seu próximo lar.",
+    }),
+  ]);
 
   const readFiltersFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -171,7 +204,7 @@
     try {
       const { data, error } = await client.from("imoveis").select("*").eq("id", id).single();
       if (error) throw error;
-      document.title = `${data.titulo} | ${window.APP_CONFIG?.business?.name || "Nome da sua empresa"}`;
+      document.title = `${data.titulo} | ${window.APP_CONFIG?.business?.name || "Aurora Imóveis"}`;
       container.innerHTML = renderDetail(data);
       revealElements?.(container);
     } catch (error) {
@@ -216,6 +249,7 @@
       setHomeSearch();
       loadNeighborhoodFilters();
       loadFeatured();
+      loadHomeCollections();
     }
     if (page === "properties") {
       const filters = readFiltersFromUrl();
