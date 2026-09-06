@@ -22,9 +22,10 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { overflow-x: clip; scroll-behavior: smooth; }
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: "Red Hat Display", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -133,6 +134,10 @@ input[type="file"]::file-selector-button { margin-right: 10px; padding: 8px 12px
 .carousel-control:hover { border-color: var(--forest); background: var(--forest); color: #fff; transform: translateY(-2px); }
 .carousel-control:focus-visible { outline: 3px solid rgba(11,92,171,0.2); outline-offset: 3px; }
 .collection-section-tint { background: #e8f2fb; }
+.collection-section:has(+ .collection-section) { padding-bottom: 64px; }
+.collection-section + .collection-section { padding-top: 64px; }
+.collection-section-tint { padding-bottom: 48px; }
+.collection-section-tint + .about-section { padding-top: 48px; }
 .property-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .property-carousel { display: flex; overflow-x: auto; padding: 4px 18px 22px; scroll-behavior: smooth; scroll-padding-inline: 18px; scroll-snap-type: x mandatory; scrollbar-color: var(--sage) transparent; }
 .property-carousel > * { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; scroll-snap-stop: always; }
@@ -317,11 +322,15 @@ input[type="file"]::file-selector-button { margin-right: 10px; padding: 8px 12px
   .carousel-heading-actions { width: 100%; justify-content: space-between; }
   .carousel-heading-actions .carousel-controls { display: none; }
   .collection-carousel-footer .carousel-controls { display: flex; }
+  .collection-section:has(+ .collection-section) { padding-bottom: 38px; }
+  .collection-section + .collection-section { padding-top: 38px; }
+  .collection-section-tint { padding-bottom: 28px; }
+  .collection-section-tint + .about-section { padding-top: 28px; }
   .property-grid { grid-template-columns: 1fr; gap: 20px; }
-  .property-carousel { display: flex; gap: 16px; overflow-x: auto; margin: 0 -18px; padding: 4px 18px 18px; scroll-padding-inline: 18px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .property-carousel { display: flex; width: 100%; gap: 16px; overflow-x: auto; margin: 0; padding: 4px 0 18px; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .property-carousel::-webkit-scrollbar { display: none; }
   .property-carousel > * { flex: 0 0 calc(100% - 28px); }
-  #featured-properties { display: flex; gap: 16px; overflow-x: auto; margin: 0 -18px; padding: 4px 18px 18px; scroll-padding-inline: 18px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  #featured-properties { display: flex; width: 100%; gap: 16px; overflow-x: auto; margin: 0; padding: 4px 0 18px; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
   #featured-properties::-webkit-scrollbar { display: none; }
   #featured-properties > * { flex: 0 0 calc(100% - 28px); scroll-snap-align: start; scroll-snap-stop: always; }
   .loading-card-desktop { display: none; }
@@ -332,7 +341,7 @@ input[type="file"]::file-selector-button { margin-right: 10px; padding: 8px 12px
   .contact-band-content { min-height: 350px; align-items: flex-start; flex-direction: column; justify-content: center; gap: 25px; padding: 57px 0; }
   .footer-grid { grid-template-columns: 1fr; gap: 25px; padding: 46px 0 30px; }
   .footer-bottom { min-height: 84px; align-items: flex-start; flex-direction: column; justify-content: center; }
-  .site-footer { margin-bottom: 4px; }
+  .site-footer { padding-bottom: 4px; }
   .page-intro { padding: 68px 0 48px; }
   .listing-filters { grid-template-columns: 1fr; }
   .listing-filters .button { grid-column: auto; }
