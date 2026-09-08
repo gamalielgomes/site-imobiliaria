@@ -4,7 +4,7 @@
   const supportsMotion = window.matchMedia
     && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     && "IntersectionObserver" in window;
-  const revealSelector = ".hero-content, .search-card, .section-heading, .about-copy, .about-visual, .contact-band-content, .page-intro .container, .listing-filters, .detail-gallery, .detail-copy, .contact-card, .auth-card, .admin-panel, .admin-table-wrap, .footer-grid";
+  const revealSelector = ".hero-content, .search-card, .section-heading, .property-card, .about-copy, .about-visual, .contact-band-content, .page-intro .container, .listing-filters, .detail-gallery, .detail-copy, .contact-card, .auth-card, .admin-panel, .admin-table-wrap, .footer-grid";
   let revealObserver;
 
   const revealElements = (root = document) => {
@@ -79,10 +79,7 @@
         <div class="property-card-body">
           <p class="property-location">${escapeHtml(location || "Belo Jardim, PE")}</p>
           <h3><a href="imovel.html?id=${encodeURIComponent(property.id)}">${escapeHtml(property.titulo)}</a></h3>
-          <div class="property-price-row">
-            <p class="property-price">${formatCurrency(property.preco, property.finalidade)}</p>
-            <a class="button button-outline button-small" href="imovel.html?id=${encodeURIComponent(property.id)}">Ver detalhes</a>
-          </div>
+          <p class="property-price">${formatCurrency(property.preco, property.finalidade)}</p>
           ${propertyFeatures(property)}
         </div>
       </article>`;
