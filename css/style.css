@@ -32,6 +32,7 @@ body {
   font-size: 17px;
   line-height: 1.65;
 }
+section {overflow-x: hidden;}
 button, input, select, textarea { font: inherit; }
 button, select { cursor: pointer; }
 button:disabled { cursor: wait; opacity: 0.7; }
