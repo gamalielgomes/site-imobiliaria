@@ -230,6 +230,10 @@ input[type="file"]::file-selector-button { margin-right: 10px; padding: 8px 12px
 .property-code { margin: 0; color: var(--ink-soft); font-size: 0.8rem; }
 .detail-loader { min-height: 400px; }
 
+.motion-enabled [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 520ms ease, transform 520ms cubic-bezier(0.2, 0.65, 0.25, 1); transition-delay: var(--reveal-delay, 0ms); }
+.motion-enabled [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+.motion-enabled .property-card[data-reveal].is-visible:hover { transform: translateY(-5px); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 1ms !important; }

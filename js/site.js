@@ -1,6 +1,22 @@
 (function siteUtilities() {
   const config = window.APP_CONFIG?.business;
   const defaultPropertyImage = "assets/imovel-padrao.svg";
+  const supportsMotion = window.matchMedia
+    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    && "IntersectionObserver" in window;
+  const revealSelector = ".hero-content, .search-card, .section-heading, .property-card, .about-copy, .about-visual, .contact-band-content, .page-intro .container, .listing-filters, .detail-gallery, .detail-copy, .contact-card, .auth-card, .admin-panel, .admin-table-wrap, .footer-grid";
+  let revealObserver;
+
+  const revealElements = (root = document) => {
+    if (!supportsMotion || !revealObserver) return;
+    root.querySelectorAll(revealSelector).forEach((element, index) => {
+      if (element.dataset.revealBound) return;
+      element.dataset.revealBound = "true";
+      element.dataset.reveal = "";
+      element.style.setProperty("--reveal-delay", `${Math.min(index * 55, 220)}ms`);
+      revealObserver.observe(element);
+    });
+  };
 
   const escapeHtml = (value = "") =>
     String(value)
@@ -76,7 +92,19 @@
     container.innerHTML = `<div class="empty-state"><h3>Não foi possível carregar os imóveis.</h3><p>${escapeHtml(message)}</p><a class="button button-outline" href="imoveis.html">Tentar novamente</a></div>`;
   };
 
-  window.Site = { escapeHtml, formatCurrency, whatsappHref, propertyCard, propertyFeatures, defaultPropertyImage, renderError };
+  window.Site = { escapeHtml, formatCurrency, whatsappHref, propertyCard, propertyFeatures, defaultPropertyImage, revealElements, renderError };
+
+  if (supportsMotion) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -36px" });
+    revealElements();
+    document.body.classList.add("motion-enabled");
+  }
 
   document.querySelectorAll("[data-current-year]").forEach((element) => {
     element.textContent = new Date().getFullYear();

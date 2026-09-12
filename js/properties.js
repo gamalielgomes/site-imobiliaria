@@ -1,6 +1,6 @@
 (function propertiesPage() {
   const client = window.supabaseClient;
-  const { propertyCard, propertyFeatures, defaultPropertyImage, renderError, escapeHtml, formatCurrency, whatsappHref } = window.Site || {};
+  const { propertyCard, propertyFeatures, defaultPropertyImage, revealElements, renderError, escapeHtml, formatCurrency, whatsappHref } = window.Site || {};
   const page = document.body.dataset.page;
 
   const showConfigurationError = (container) => {
@@ -81,6 +81,7 @@
       container.innerHTML = properties.length
         ? properties.map(propertyCard).join("")
         : '<div class="empty-state"><h3>Novas oportunidades em breve.</h3><p>Fale com nossa equipe e conte o que você procura.</p></div>';
+      revealElements?.(container);
     } catch (error) {
       console.error(error);
       renderError(container, "Tente atualizar a página em alguns instantes.");
@@ -97,6 +98,7 @@
       container.innerHTML = properties.length
         ? properties.map(propertyCard).join("")
         : `<div class="empty-state"><h3>${emptyTitle}</h3><p>${emptyMessage}</p><a class="button button-outline" href="imoveis.html">Ver todos os imóveis</a></div>`;
+      revealElements?.(container);
     } catch (error) {
       console.error(error);
       renderError(container, "Tente atualizar a página em alguns instantes.");
@@ -158,6 +160,7 @@
       container.innerHTML = properties.length
         ? properties.map(propertyCard).join("")
         : '<div class="empty-state"><h3>Nenhum imóvel encontrado.</h3><p>Ajuste os filtros ou fale com nossa equipe — podemos ajudar na busca.</p><a class="button button-outline" href="imoveis.html">Ver todos os imóveis</a></div>';
+      revealElements?.(container);
     } catch (error) {
       console.error(error);
       count.textContent = "";
@@ -203,6 +206,7 @@
       if (error) throw error;
       document.title = `${data.titulo} | ${window.APP_CONFIG?.business?.name || "Aurora Imóveis"}`;
       container.innerHTML = renderDetail(data);
+      revealElements?.(container);
     } catch (error) {
       console.error(error);
       container.innerHTML = '<div class="empty-state"><h1>Imóvel não encontrado.</h1><p>Ele pode não estar mais disponível.</p><a class="button button-primary" href="imoveis.html">Ver imóveis</a></div>';
