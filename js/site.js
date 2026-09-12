@@ -79,7 +79,10 @@
         <div class="property-card-body">
           <p class="property-location">${escapeHtml(location || "Belo Jardim, PE")}</p>
           <h3><a href="imovel.html?id=${encodeURIComponent(property.id)}">${escapeHtml(property.titulo)}</a></h3>
-          <p class="property-price">${formatCurrency(property.preco, property.finalidade)}</p>
+          <div class="property-price-row">
+            <p class="property-price">${formatCurrency(property.preco, property.finalidade)}</p>
+            <a class="button button-outline button-small" href="imovel.html?id=${encodeURIComponent(property.id)}">Ver detalhes</a>
+          </div>
           ${propertyFeatures(property)}
         </div>
       </article>`;
